@@ -1,0 +1,69 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: API Test Automation WorkFlow
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 18
+      uses: actions/setup-java@v4
+      with:
+        java-version: '18'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Running Test Automation Framework with Maven
+      run: mvn test -X -Dgpt_key=${{secrets.GPT_KEY}} -Dnotion_key=${{secrets.NOTION_KEY}} -Ddatabase_id=${{secrets.DATABASE_ID}}
+     
+    - name: Upload  Test logs
+      if: always()
+      uses: actions/upload-artifact@v4.4.3
+      with:
+       name: Test logs
+       path: logs/    
+
+    - name: Upload HTML Report as Artifact
+      if: always()
+      uses: actions/upload-artifact@v4.4.3
+      with:
+        name: html-report
+        path: src/test/resources/test-reports/report.html
+       
+    - name: Test Execution Status
+      if: always()
+      run: echo "Test Execution Completed"
+
+    - name: Copy Report to gh-pages Folder
+      if: always()
+
+      run: |
+        mkdir -p public/extent-reports
+        cp -R src/test/resources/test-reports/report.html  public/extent-reports/        
+        ls -l
+
+    - name: Deploy 🚀
+      if: always()
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: public/extent-reports/
+        token: ${{ secrets.PAT }}
+        clean: true
