@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="API Automation Practice Test Suite" parallel="methods" thread-counts="1" verbose="1">
+    <parameter name="gpt_key" value="${gpt_key}" />
+    <parameter name="notion_key" value="${notion_key}" />
+    <parameter name="database_id" value="${database_id}" />
+    <test name="API Automation Test">
+        <classes>
+            <class name="api.tests.gpt_and_notion.ChatGptTextGenerationTest" />
+        </classes>
+    </test>
+</suite>
