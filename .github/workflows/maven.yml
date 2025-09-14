@@ -32,7 +32,7 @@ jobs:
         cache: maven
         
     - name: Running Test Automation Framework with Maven
-      run: mvn test -X -Dgpt_key=${{secrets.GPT_KEY}} -Dnotion_key=${{secrets.NOTION_KEY}} -Ddatabase_id=${{secrets.DATABASE_ID}}
+      run: mvn test -X -Dgpt_key=${{secrets.GPT_KEY_NEW}} -Dnotion_key=${{secrets.NOTION_KEY_NEW}} -Ddatabase_id=${{secrets.DATABASE_ID_NEW}}
      
     - name: Upload  Test logs
       if: always()
