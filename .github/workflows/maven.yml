@@ -60,10 +60,4 @@ jobs:
         cp -R src/test/resources/test-reports/report.html  public/extent-reports/        
         ls -l
 
-    - name: Deploy 🚀
-      if: always()
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: public/extent-reports/
-        token: ${{ secrets.PAT }}
-        clean: true
+    
