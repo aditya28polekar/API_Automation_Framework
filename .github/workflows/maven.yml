@@ -52,12 +52,6 @@ jobs:
       if: always()
       run: echo "Test Execution Completed"
 
-    - name: Copy Report to gh-pages Folder
-      if: always()
-
-      run: |
-        mkdir -p public/extent-reports
-        cp -R src/test/resources/test-reports/report.html  public/extent-reports/        
-        ls -l
+    
 
     
